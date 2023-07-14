@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>Linux密码复杂度设置</title>
+    <link href="/2023/07/14/Linux%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AE%BE%E7%BD%AE/"/>
+    <url>/2023/07/14/Linux%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%AE%BE%E7%BD%AE/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Linux-密码复杂度设置pam-pwquality、pam-passwdqc"><a href="#Linux-密码复杂度设置pam-pwquality、pam-passwdqc" class="headerlink" title="Linux 密码复杂度设置pam_pwquality、pam_passwdqc"></a>Linux 密码复杂度设置pam_pwquality、pam_passwdqc</h2><p>1、Linux对应的密码策略模块有：pam_passwdqc 和 pam_pwquality 。其中pam_passwdqc模块对应的是&#x2F;etc&#x2F;login.defs，pam_pwquality对应的是&#x2F;etc&#x2F;security&#x2F;pwquality.conf<br>2、模块的添加方法：&#x2F;etc&#x2F;pam.d&#x2F;passwd<br>password required pam_pwquality.so retry&#x3D;3<br>3、模块的配置方法有两种：<br>一、password required pam_pwquality.so dcredit&#x3D;-1 ucredit&#x3D;-1 ocredit&#x3D;-1 lcredit&#x3D;0<br>二、添加到&#x2F;etc&#x2F;security&#x2F;pwquality.conf 中<br>4、&#x2F;etc&#x2F;security&#x2F;pwquality.conf详解：<br>retry&#x3D;N：定义登录&#x2F;修改密码失败时，可以重试的次数；<br>Difok&#x3D;N：定义新密码中必须有几个字符要与旧密码不同。但是如果新密码中有1&#x2F;2以上的字符与旧密码不同时，该新密码将被接受；<br>minlen&#x3D;N：定义用户密码的最小长度；<br>dcredit&#x3D;N：定义用户密码中必须包含多少个数字；<br>ucredit&#x3D;N：定义用户密码中必须包含多少个大写字母；<br>lcredit&#x3D;N：定义用户密码中必须包含多少个小些字母；<br>ocredit&#x3D;N：定义用户密码中必须包含多少个特殊字符（除数字、字母之外）；<br>其中 &#x3D;-1表示，至少有一个<br>5、&#x2F;etc&#x2F;login.defs详解：<br>PASS_MAX_DAYS 99999 #密码的最大有效期, 99999:永久有期<br>PASS_MIN_DAYS 0 #是否可修改密码,0可修改,非0多少天后可修改<br>PASS_MIN_LEN 5 #密码最小长度,使用pam_cracklib module,该参数不再有效<br>PASS_WARN_AGE 7 #密码失效前多少天在用户登录时通知用户修改密码<br>6、实际生产环境配置<br>&#x2F;etc&#x2F;security&#x2F;pwquality.conf ：<br>minlen &#x3D; 8<br>minclass &#x3D; 1<br>maxrepeat &#x3D; 0<br>maxclassrepeat &#x3D; 4<br>lcredit &#x3D; -1<br>ucredit &#x3D; -1<br>dcredit &#x3D; -1<br>ocredit &#x3D; -1<br>difok&#x3D;5<br>&#x2F;etc&#x2F;login.defs：<br>PASS_MAX_DAYS 90<br>PASS_MIN_LEN 12<br>PASS_MIN_DAYS 7<br>PASS_WARN_AGE 30<br>UMASK 077</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络安全</category>
+      
+      <category>0x07-杂项</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux</tag>
+      
+      <tag>安全运维</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>js反调试</title>
     <link href="/2023/07/13/js%E5%8F%8D%E8%B0%83%E8%AF%95/"/>
     <url>/2023/07/13/js%E5%8F%8D%E8%B0%83%E8%AF%95/</url>
