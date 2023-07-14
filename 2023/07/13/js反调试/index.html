@@ -16,21 +16,38 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="前言我们在挖src的时候有时会需要调试一下js，但是有时又会遇到js反调试技术，这里就总结一下绕过反调试的几种常见方法 什么是js反调试JS反调试（Anti-Debugging）是指在JavaScript代码中使用各种技术和方法来阻止或干扰对代码的调试和分析。它是一种用于保护代码免受逆向工程或黑客攻击的技术手段。JS反调试的目标是阻止或干扰常见的调试技术和工具，例如使用浏览器的开发者工具或调试器来">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://zzhnohikari.github.io/2023/06/21/hello-world/index.html">
+<meta property="og:title" content="js反调试">
+<meta property="og:url" content="https://zzhnohikari.github.io/2023/07/13/js%E5%8F%8D%E8%B0%83%E8%AF%95/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="前言我们在挖src的时候有时会需要调试一下js，但是有时又会遇到js反调试技术，这里就总结一下绕过反调试的几种常见方法 什么是js反调试JS反调试（Anti-Debugging）是指在JavaScript代码中使用各种技术和方法来阻止或干扰对代码的调试和分析。它是一种用于保护代码免受逆向工程或黑客攻击的技术手段。JS反调试的目标是阻止或干扰常见的调试技术和工具，例如使用浏览器的开发者工具或调试器来">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-06-21T06:37:41.111Z">
-<meta property="article:modified_time" content="2023-07-13T12:14:16.337Z">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/1689243091308-84b09e86-31f1-4625-83c7-088726236028.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230713233054108.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230713233606356.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714003933735.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714004025331.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714004050450.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714004540141.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714114408289.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714114520258.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714114612618.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714120033232.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714120448762.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714121332170.png">
+<meta property="article:published_time" content="2023-07-13T11:19:08.000Z">
+<meta property="article:modified_time" content="2023-07-14T04:33:55.575Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="js逆向">
+<meta property="article:tag" content="web攻防">
+<meta property="article:tag" content="网络安全">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zzhnohikari.github.io/images/js%E5%8F%8D%E8%B0%83%E8%AF%95/1689243091308-84b09e86-31f1-4625-83c7-088726236028.png">
   
   
   
-  <title>Hello World - Hexo</title>
+  <title>js反调试 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -235,7 +252,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text="js反调试"></span>
           
         </div>
 
@@ -246,8 +263,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-06-21 14:37" pubdate>
-          2023年6月21日 下午
+        <time datetime="2023-07-13 19:19" pubdate>
+          2023年7月13日 晚上
         </time>
       </span>
     
@@ -258,7 +275,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          367 字
+          1.7k 字
         
       </span>
     
@@ -269,7 +286,7 @@
         
         
         
-          4 分钟
+          15 分钟
         
       </span>
     
@@ -306,24 +323,66 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header">js反调试</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我们在挖src的时候有时会需要调试一下js，但是有时又会遇到js反调试技术，这里就总结一下绕过反调试的几种常见方法</p>
+<h2 id="什么是js反调试"><a href="#什么是js反调试" class="headerlink" title="什么是js反调试"></a>什么是js反调试</h2><p>JS反调试（Anti-Debugging）是指在JavaScript代码中使用各种技术和方法来阻止或干扰对代码的调试和分析。它是一种用于保护代码免受逆向工程或黑客攻击的技术手段。<br>JS反调试的目标是阻止或干扰常见的调试技术和工具，例如使用浏览器的开发者工具或调试器来检查和修改代码、设置断点、查看变量值等操作。通过实施反调试技术，开发人员可以增加攻击者分析和调试代码的难度，从而提高代码的安全性。</p>
+<p>总而言之，所谓js反调试就是一种实现防止他人调试、动态分析自己的代码的技术</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/1689243091308-84b09e86-31f1-4625-83c7-088726236028.png" srcset="/img/loading.gif" lazyload alt="image.png"></p>
+<h2 id="常见的js检测调试的方法"><a href="#常见的js检测调试的方法" class="headerlink" title="常见的js检测调试的方法"></a>常见的js检测调试的方法</h2><p>1.检测console对象：使用console.log输出调试信息是常见的调试方式，因此可以尝试检测console对象是否存在。</p>
+<p>2.检测调试器是否开启：通过捕获异常来判断是否有调试器开启，因为调试器运行时往往会阻止异常抛出。</p>
+<p>3.检测调试器的钩子（Hook）：一些调试器会在运行时给调试页面注入特定的全局变量或方法，通过检测这些变量或方法是否存在来判断调试器是否开启</p>
+<p>4.检测源代码修改：检测document对象或其内部元素是否被修改，来判断是否有人试图修改源代码。</p>
+<p>5.检测浏览器的高度插值</p>
+<p>6.检测开发者人员工具变量是否为true</p>
+<p>7.利用代码运行的时间差</p>
+<p>8.利用toString</p>
+<p>9.检测非浏览器</p>
+<h2 id="常见绕过方法"><a href="#常见绕过方法" class="headerlink" title="常见绕过方法"></a>常见绕过方法</h2><p>下面就来谈一谈常见的绕过js反调试的方法</p>
+<p>-禁用断点法</p>
+<p>-条件断点法</p>
+<p>-此处暂停法</p>
+<p>-置空函数法</p>
+<p>-本地覆盖法</p>
+<h3 id="禁用断点法"><a href="#禁用断点法" class="headerlink" title="禁用断点法"></a>禁用断点法</h3><p>举个例子</p>
+<p><a target="_blank" rel="noopener" href="https://jx.qqqjx.com/?url=https://www.luffycity.com/play/5812">https://jx.qqqjx.com/?url=https://www.luffycity.com/play/5812</a></p>
+<p>这是一个在线视频解析网站，当打开F12的时候就会发现无法动弹，自动在这里卡住了，不让我们进行调试</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230713233054108.png" srcset="/img/loading.gif" lazyload alt="image-20230713233054108"></p>
+<p>当你取消F12的时候就可以继续正常访问了，那我们该怎么进行在F12的情况下正常运行呢？</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230713233606356.png" srcset="/img/loading.gif" lazyload alt="image-20230713233606356"></p>
+<p>这时我们发现网站可以正常运行了</p>
+<p>但是这时候我们会发现，这时我们自己的断点也不起作用了，这就很尴尬</p>
+<h3 id="条件断点法"><a href="#条件断点法" class="headerlink" title="条件断点法"></a>条件断点法</h3><p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714003933735.png" srcset="/img/loading.gif" lazyload alt="image-20230714003933735"></p>
+<p>首先在debugger这一行打一个断点，然后右击，编辑断点</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714004025331.png" srcset="/img/loading.gif" lazyload alt="image-20230714004025331"></p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714004050450.png" srcset="/img/loading.gif" lazyload alt="image-20230714004050450"></p>
+<p>按照上图进行操作，这时再刷新网站，回答先还有一处debugger，用同样的的操作添加条件断点，这是刷新网站发现可以正常运行了</p>
+<h3 id="此处暂停法"><a href="#此处暂停法" class="headerlink" title="此处暂停法"></a>此处暂停法</h3><p>直接在断点处右击，选择永不在此处暂停再刷新也可以进行绕过</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714004540141.png" srcset="/img/loading.gif" lazyload alt="image-20230714004540141"></p>
+<h3 id="置空函数法"><a href="#置空函数法" class="headerlink" title="置空函数法"></a>置空函数法</h3><p>找到这个debug方法名，在控制台重写替换，将其置空（需要找到debug的函数，然后将它置空，但是这里我没找到）</p>
+<p>置空函数法是一种常见的绕过 JavaScript 反调试的方法之一。它的基本原理是将调试器检测代码中的关键函数或变量进行修改，使其在调试环境下失效，以此来防止或绕过反调试机制。</p>
+<p>下面是一个示例代码，演示了置空函数法绕过反调试的实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 检测调试器的函数</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">detectDebugger</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-comment">// 检测到调试器打开</span><br>  <span class="hljs-title function_">alert</span>(<span class="hljs-string">&quot;Debugger detected!&quot;</span>);<br>&#125;<br><br><span class="hljs-comment">// 将检测调试器的函数置空</span><br>detectDebugger = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;&#125;;<br><br><span class="hljs-comment">// 调用检测调试器的函数</span><br><span class="hljs-title function_">detectDebugger</span>();<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>在这个示例中，原本用于检测调试器的 <code>detectDebugger</code> 函数被重新赋值为空函数，从而使得检测调试器的功能失效。当调试器尝试调用 <code>detectDebugger</code> 函数时，实际上调用的是空函数，不会触发任何反调试机制。</p>
+<h3 id="本地覆盖法"><a href="#本地覆盖法" class="headerlink" title="本地覆盖法"></a>本地覆盖法</h3><p><a target="_blank" rel="noopener" href="https://www.aqistudy.cn/">https://www.aqistudy.cn/</a></p>
+<p>来尝试一下这个网站，会发现打开该网站之后无法调试</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714114408289.png" srcset="/img/loading.gif" lazyload alt="image-20230714114408289"></p>
+<p>F12，右击都没办法使用</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714114520258.png" srcset="/img/loading.gif" lazyload alt="image-20230714114520258"></p>
+<p>在这里进入管理者工具之后也是进入了断点</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714114612618.png" srcset="/img/loading.gif" lazyload alt="image-20230714114612618"></p>
+<p>经过一系列操作也是没办法进行调试，该如何解决？</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714120033232.png" srcset="/img/loading.gif" lazyload alt="image-20230714120033232"></p>
+<p>注意看这里，浏览器基本上都有这个覆盖，就使用本地的js文件代替网站js文件，思路就是先将页面导出来，去掉反调试代码，进行覆盖</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714120448762.png" srcset="/img/loading.gif" lazyload alt="image-20230714120448762"></p>
+<p>选择之后有一个允许或拒绝的提示，允许一下就好</p>
+<p>然后就是将带有反调试代码的文件保存到本地修改，一般是js文件或者脚本文件</p>
+<p><img src="/./../../images/js%E5%8F%8D%E8%B0%83%E8%AF%95/image-20230714121332170.png" srcset="/img/loading.gif" lazyload alt="image-20230714121332170"></p>
+<p>思路是这样，但是要改的地方蛮多的我就不一一展示了，感兴趣的朋友可以研究研究</p>
 
                 
               </div>
@@ -347,8 +406,15 @@
   
     <span>></span>
     
-  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/0x01-test/" class="category-chain-item">0x01-test</a>
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/0x02-web%E6%94%BB%E9%98%B2/" class="category-chain-item">0x02-web攻防</a>
   
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/0x02-web%E6%94%BB%E9%98%B2/0x10-js%E5%BA%94%E7%94%A8/" class="category-chain-item">0x10-js应用</a>
+  
+  
+
   
 
   
@@ -361,6 +427,17 @@
     </div>
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/js%E9%80%86%E5%90%91/" class="print-no-link">#js逆向</a>
+      
+        <a href="/tags/web%E6%94%BB%E9%98%B2/" class="print-no-link">#web攻防</a>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" class="print-no-link">#网络安全</a>
+      
+    </div>
+  
 </div>
 
 
@@ -369,8 +446,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>https://zzhnohikari.github.io/2023/06/21/hello-world/</div>
+      <div>js反调试</div>
+      <div>https://zzhnohikari.github.io/2023/07/13/js反调试/</div>
     </div>
     <div class="license-meta">
       
@@ -382,7 +459,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年6月21日</div>
+          <div>2023年7月13日</div>
         </div>
       
       
@@ -414,15 +491,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/07/11/test/" title="test">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">test</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2023/07/11/test/" title="test">
+                        <span class="hidden-mobile">test</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
