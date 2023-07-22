@@ -4,6 +4,39 @@
   
   
   <entry>
+    <title>Linux提权(1)</title>
+    <link href="/2023/07/22/Linux%E6%8F%90%E6%9D%83-1/"/>
+    <url>/2023/07/22/Linux%E6%8F%90%E6%9D%83-1/</url>
+    
+    <content type="html"><![CDATA[<p>在本篇文章中总结一些基础的Linux特权提升</p><h3 id="先介绍几个工具"><a href="#先介绍几个工具" class="headerlink" title="先介绍几个工具"></a>先介绍几个工具</h3><p>LinPEAS      LinEnum</p><p>LinPEAS 是一种 Linux 版本的 Privilege Escalation 检测脚本，它可以在目标 Linux 系统上自动执行大量的信息收集和安全检查任务，并生成详细的报告，以帮助渗透测试人员识别并利用潜在的权限提升漏洞。LinPEAS 可以递归地搜索目标文件系统中的所有目录和文件，并执行各种命令和脚本来检查系统配置、进程、用户、SUID&#x2F;SGID 文件、可写文件、定时任务、未知的网络连接等方面的安全问题。与其他 Privilege Escalation 工具相比，LinPEAS 的最大优势在于其自动化和全面性，它可以极大地简化安全测试流程，同时提高了测试的准确性和深度。</p><p>LinEnum 是一个用于 Linux 系统的脚本，它可以帮助系统管理员和渗透测试人员快速识别目标主机上的潜在漏洞和攻击面。该脚本可以自动执行各种枚举和信息收集任务，并生成详细的报告。LinEnum 脚本可以检查系统配置、系统用户、正在运行的服务、系统进程、底层文件和文件系统权限等方面的安全问题。最重要的是，LinEnum 可以通过简单明了的结果输出方式帮助用户快速定位漏洞和攻击面，使得系统管理员和渗透测试人员可以更加高效地发现并修复潜在的安全威胁。</p><h2 id="cron任务，这些文件每隔一段时间都会被执行"><a href="#cron任务，这些文件每隔一段时间都会被执行" class="headerlink" title="cron任务，这些文件每隔一段时间都会被执行"></a>cron任务，这些文件每隔一段时间都会被执行</h2><h3 id="1-替换文件提权"><a href="#1-替换文件提权" class="headerlink" title="1.替换文件提权"></a>1.替换文件提权</h3><p>我们可以运行上述两种工具中的任意一种，来找到系统潜在的漏洞，比如</p><p><img src="/./../../images/Linux%E6%8F%90%E6%9D%83-1/image-20230722115616094.png" alt="image-20230722115616094"></p><p>这代表着我们可以有能力运行&#x2F;bin&#x2F;bash</p><p>并且根据给出的 crontab 内容，可以看出系统每小时会执行 <code>/etc/cron.hourly</code> 目录下的脚本，每天执行 <code>/etc/cron.daily</code> 目录下的脚本，每周执行 <code>/etc/cron.weekly</code> 目录下的脚本，每月执行 <code>/etc/cron.monthly</code> 目录下的脚本。此外，还有两个额外的任务在定时执行，分别是 <code>overwrite.sh</code> 和 <code>/usr/local/bin/compress.sh</code>。其中，<code>overwrite.sh</code> 是以 root 用户身份执行的，可能会有一定的风险。需要进一步检查这些脚本的内容和权限设置，以确定是否存在潜在的安全漏洞。</p><p>我们可以尝试找到该文件的位置，并且放入一个反弹shell的命令进入该文件，获取shell</p><p>可以这样操作</p><p>locat filename –&gt;得到overwrite文件地址</p><p>进行编辑，添加bash反弹shell命令并进行监听</p><p>这里再推荐一个系统提权的优秀网站</p><p><a href="https://gtfobins.github.io/">GTFOBins</a></p><h3 id="2-tar提权"><a href="#2-tar提权" class="headerlink" title="2.tar提权"></a>2.tar提权</h3><p><img src="/./../../images/Linux%E6%8F%90%E6%9D%83-1/image-20230722134441274.png" alt="image-20230722134441274"></p><p>发现一个tar定时任务，并进行以下操作便可以触发恶意文件shell.elf</p><h2 id="ssh提权"><a href="#ssh提权" class="headerlink" title="ssh提权"></a>ssh提权</h2><p>可以看一下.ssh目录下有没有可以使用的密钥，并连接到其他高权限账户</p><h2 id="suid提权"><a href="#suid提权" class="headerlink" title="suid提权"></a>suid提权</h2><p>find &#x2F; -perm -4000 -type f -exec ls -la {} 2&gt;&#x2F;dev&#x2F;null ;</p><p>这个命令是一个 Linux 和 Unix 系统中常用的查找具有 SUID 和 SGID 标志的文件的命令。SUID 和 SGID 标志可以让普通用户在执行某些程序时以超级用户权限或者其他用户权限运行该程序，从而可能导致系统安全问题。</p><p>具体来说，这个命令会在根目录下递归查找具有 SUID 或 SGID 标志的文件，并将它们的详细信息输出到标准输出。其中 <code>-perm -4000</code> 表示查找具有 SUID 标志的文件，<code>-type f</code> 表示只查找文件类型为“普通文件”的对象，<code>-exec ls -la &#123;&#125; \;</code> 表示对每个匹配项执行 <code>ls -la</code> 命令并输出详细信息，<code>2&gt;/dev/null</code> 表示将错误输出重定向到空设备，以避免在输出中显示一些不必要的错误信息。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络安全</category>
+      
+      <category>0x03-提权</category>
+      
+      <category>0x09-Linux提权</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>web攻防</tag>
+      
+      <tag>网络安全</tag>
+      
+      <tag>提权</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Java安全之JNDI</title>
     <link href="/2023/07/21/Java%E5%AE%89%E5%85%A8%E4%B9%8BJNDI/"/>
     <url>/2023/07/21/Java%E5%AE%89%E5%85%A8%E4%B9%8BJNDI/</url>
