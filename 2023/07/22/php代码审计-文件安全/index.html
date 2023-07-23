@@ -16,12 +16,12 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="php代码审计cnvd梦想cms文件删除漏洞 漏洞描述中说的是Ba*** 存在任意文件删除漏洞  在源码中可以看到在后台中只存在两个ba开头的文件，那漏洞就一定存在于其中之一了  我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边 这边先给出php中删除的函数 在 PHP 中，删除文件的函数主要有以下几种：  unlink() 函数：使用 unlink() 函">
+    <meta name="description" content="php代码审计cnvd梦想cms文件删除漏洞 漏洞描述中说的是Ba*** 存在任意文件删除漏洞  在源码中可以看到在后台中只存在两个ba开头的文件，那漏洞就一定存在于其中之一了  我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边 这边先给出php中删除的函数 在 PHP 中，删除文件的函数主要有以下几种： 1.unlink() 函数：使用 unlink()">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php代码审计(文件安全)">
 <meta property="og:url" content="https://zzhnohikari.github.io/2023/07/22/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="php代码审计cnvd梦想cms文件删除漏洞 漏洞描述中说的是Ba*** 存在任意文件删除漏洞  在源码中可以看到在后台中只存在两个ba开头的文件，那漏洞就一定存在于其中之一了  我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边 这边先给出php中删除的函数 在 PHP 中，删除文件的函数主要有以下几种：  unlink() 函数：使用 unlink() 函">
+<meta property="og:description" content="php代码审计cnvd梦想cms文件删除漏洞 漏洞描述中说的是Ba*** 存在任意文件删除漏洞  在源码中可以看到在后台中只存在两个ba开头的文件，那漏洞就一定存在于其中之一了  我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边 这边先给出php中删除的函数 在 PHP 中，删除文件的函数主要有以下几种： 1.unlink() 函数：使用 unlink()">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038220720-667d7bc8-c853-4d0b-8cb8-f223b5595188.png">
 <meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690038467679-bf62f9dc-a2e8-4a66-9c5a-ea0ce9c59050.png">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690076732089-1401b077-148b-4b48-a868-fffdfdde628e.png">
 <meta property="og:image" content="https://zzhnohikari.github.io/images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690076767740-f8a12e4b-9727-49ab-8f0a-02c0a527ad8f.png">
 <meta property="article:published_time" content="2023-07-22T15:12:51.000Z">
-<meta property="article:modified_time" content="2023-07-23T01:52:17.011Z">
+<meta property="article:modified_time" content="2023-07-23T01:54:43.226Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="网络安全">
 <meta property="article:tag" content="代码审计">
@@ -330,19 +330,13 @@
 <p>我的思路是直接搜一波删除，在备注中发现back****文件中删除的功能较多，优先审计这边</p>
 <p>这边先给出php中删除的函数</p>
 <p>在 PHP 中，删除文件的函数主要有以下几种：</p>
-<ol>
-<li>unlink() 函数：使用 unlink() 函数可以删除指定路径下的文件。例如：</li>
-</ol>
+<p>1.unlink() 函数：使用 unlink() 函数可以删除指定路径下的文件。例如：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">$file = &#x27;/path/to/file.txt&#x27;;<br>if (!unlink($file)) &#123;<br>    echo &quot;Error deleting $file&quot;;<br>&#125; else &#123;<br>    echo &quot;$file deleted&quot;;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<ol>
-<li>rmdir() 函数：使用 rmdir() 函数可以删除指定路径下的空目录。例如：</li>
-</ol>
+<p>2.rmdir() 函数：使用 rmdir() 函数可以删除指定路径下的空目录。例如：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plain">$dir = &#x27;/path/to/empty/dir&#x27;;<br>if (!rmdir($dir)) &#123;<br>    echo &quot;Error deleting $dir&quot;;<br>&#125; else &#123;<br>    echo &quot;$dir deleted&quot;;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<ol>
-<li>unlink() 和 rmdir() 的结合使用：如果要删除非空目录，则需要先递归地删除目录中的所有文件和子目录，然后再删除该目录本身。可以使用 unlink() 和 rmdir() 的结合使用来实现这个功能。例如：</li>
-</ol>
+<p>3.unlink() 和 rmdir() 的结合使用：如果要删除非空目录，则需要先递归地删除目录中的所有文件和子目录，然后再删除该目录本身。可以使用 unlink() 和 rmdir() 的结合使用来实现这个功能。例如：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs plain">function deleteDirectory($dir) &#123;<br>    if (!file_exists($dir)) &#123;<br>        return true;<br>    &#125;<br><br>    if (!is_dir($dir)) &#123;<br>        return unlink($dir);<br>    &#125;<br><br>    foreach (scandir($dir) as $item) &#123;<br>        if ($item == &#x27;.&#x27; || $item == &#x27;..&#x27;) &#123;<br>            continue;<br>        &#125;<br>        <br>        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) &#123;<br>            return false;<br>        &#125;<br>    &#125;<br><br>    return rmdir($dir);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p><img src="/./../../images/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/1690039100096-f68014cf-1b90-4e1f-a2ef-0ea45cb15417.png" srcset="/img/loading.gif" lazyload alt="img"></p>
